@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Payments</h3>
+
+<div class="card p-3 mb-3">
+  <form method="post" action="{{ url_for('main.payments_add') }}">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <select name="customer_id" class="form-select" required>
+          <option value="">--Customer--</option>
+          {% for c in customers.values() %}
+            <option value="{{ c.id }}">{{ c.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2"><input name="amount" class="form-control" placeholder="Amount" required></div>
+      <div class="col-md-2">
+        <select name="mode" class="form-select">
+          <option>Cash</option>
+          <option>Card</option>
+          <option>UPI</option>
+        </select>
+      </div>
+      <div class="col-md-3"><input name="notes" class="form-control" placeholder="Notes"></div>
+      <div class="col-md-2"><button class="btn btn-primary">Record</button></div>
+    </div>
+  </form>
+</div>
+
+<table class="table">
+  <thead><tr><th>ID</th><th>Customer</th><th>Amount</th><th>Mode</th><th>Date</th></tr></thead>
+  <tbody>
+    {% for p in payments %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ customers.get(p.customer_id).name if customers.get(p.customer_id) else 'N/A' }}</td>
+        <td>₹ {{ "%.2f"|format(p.amount) }}</td>
+        <td>{{ p.mode }}</td>
+        <td>{{ p.received_at.strftime("%Y-%m-%d") }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

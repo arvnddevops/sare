@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Customers</h3>
+
+<div class="card p-3 mb-3">
+  <form method="post" action="{{ url_for('main.customers_add') }}">
+    <div class="row">
+      <div class="col-md-4">
+        <input name="name" class="form-control" placeholder="Name" required>
+      </div>
+      <div class="col-md-3">
+        <input name="phone" class="form-control" placeholder="Phone">
+      </div>
+      <div class="col-md-3">
+        <input name="email" class="form-control" placeholder="Email">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Created</th></tr></thead>
+  <tbody>
+    {% for c in customers %}
+      <tr>
+        <td>{{ c.id }}</td>
+        <td>{{ c.name }}</td>
+        <td>{{ c.phone }}</td>
+        <td>{{ c.email }}</td>
+        <td>{{ c.created_at.strftime("%Y-%m-%d") }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

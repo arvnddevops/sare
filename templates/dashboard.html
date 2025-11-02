@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Dashboard</h3>
+<div class="row">
+  <div class="col-md-3">
+    <div class="card p-3">
+      <h6>Customers</h6>
+      <h3>{{ customers_count }}</h3>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-3">
+      <h6>Orders</h6>
+      <h3>{{ orders_count }}</h3>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-3">
+      <h6>Due Amount</h6>
+      <h3>₹ {{ "%.2f"|format(due_amount) }}</h3>
+    </div>
+  </div>
+</div>
+
+<h5 class="mt-4">Recent Orders</h5>
+<table class="table">
+  <thead><tr><th>ID</th><th>Saree</th><th>Amount</th><th>Status</th><th>Created</th></tr></thead>
+  <tbody>
+    {% for o in recent_orders %}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>{{ o.saree_name }}</td>
+        <td>₹ {{ "%.2f"|format(o.amount) }}</td>
+        <td>{{ o.order_status }} / {{ o.payment_status }}</td>
+        <td>{{ o.created_at.strftime("%Y-%m-%d") }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

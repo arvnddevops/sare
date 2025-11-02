@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Reports</h3>
+
+<div class="row">
+  <div class="col-md-3"><div class="card p-3"><h6>Total Customers</h6><h3>{{ total_customers }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Total Orders</h6><h3>{{ total_orders }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Total Paid</h6><h3>₹ {{ "%.2f"|format(total_paid) }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Total Due</h6><h3>₹ {{ "%.2f"|format(total_due) }}</h3></div></div>
+</div>
+{% endblock %}

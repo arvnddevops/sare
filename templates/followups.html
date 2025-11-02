@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Follow-ups</h3>
+
+<div class="card p-3 mb-3">
+  <form method="post" action="{{ url_for('main.followups_add') }}">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <select name="customer_id" class="form-select" required>
+          <option value="">--Customer--</option>
+          {% for c in customers.values() %}
+            <option value="{{ c.id }}">{{ c.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <input type="date" name="follow_date" class="form-control" required>
+      </div>
+      <div class="col-md-4"><input name="notes" class="form-control" placeholder="Notes"></div>
+      <div class="col-md-2"><button class="btn btn-primary">Schedule</button></div>
+    </div>
+  </form>
+</div>
+
+<table class="table">
+  <thead><tr><th>ID</th><th>Customer</th><th>Follow Date</th><th>Done</th></tr></thead>
+  <tbody>
+    {% for f in followups %}
+      <tr>
+        <td>{{ f.id }}</td>
+        <td>{{ customers.get(f.customer_id).name if customers.get(f.customer_id) else 'N/A' }}</td>
+        <td>{{ f.follow_date.strftime("%Y-%m-%d") }}</td>
+        <td>{{ 'Yes' if f.done else 'No' }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

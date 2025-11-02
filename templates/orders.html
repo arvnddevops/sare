@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Orders</h3>
+
+<div class="card p-3 mb-3">
+  <form method="post" action="{{ url_for('main.orders_add') }}">
+    <div class="row g-2 align-items-center">
+      <div class="col-md-3">
+        <select name="customer_id" class="form-select" required>
+          <option value="">-- Select customer --</option>
+          {% for c in customers.values() %}
+            <option value="{{ c.id }}">{{ c.name }} ({{ c.phone or '-' }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <input name="saree_name" class="form-control" placeholder="Saree name" required>
+      </div>
+      <div class="col-md-2">
+        <input name="amount" class="form-control" placeholder="Amount" required>
+      </div>
+      <div class="col-md-2">
+        <select name="payment_status" class="form-select">
+          <option>Pending</option>
+          <option>Paid</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<table class="table table-hover">
+  <thead><tr><th>ID</th><th>Customer</th><th>Saree</th><th>Amount</th><th>Payment</th><th>Created</th></tr></thead>
+  <tbody>
+    {% for o in orders %}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>{{ customers.get(o.customer_id).name if customers.get(o.customer_id) else 'N/A' }}</td>
+        <td>{{ o.saree_name }}</td>
+        <td>₹ {{ "%.2f"|format(o.amount) }}</td>
+        <td>{{ o.payment_status }}{% if o.payment_mode %} / {{ o.payment_mode }}{% endif %}</td>
+        <td>{{ o.created_at.strftime("%Y-%m-%d") }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
